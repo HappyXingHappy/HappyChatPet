@@ -181,9 +181,10 @@ def speech_synthesis_with_voice(rstext):
     # result = speech_synthesizer.speak_text_async(text).get()
     result = speech_synthesizer.speak_ssml_async(ssml_string).get()
     # Check result
-    if result.reason == speechsdk.ResultReason.SynthesizingAudioCompleted:
-        print("Speech synthesized to speaker for text [{}] with voice [{}]".format(text, voice))
-    elif result.reason == speechsdk.ResultReason.Canceled:
+    # if result.reason == speechsdk.ResultReason.SynthesizingAudioCompleted:
+
+        # print("Speech synthesized to speaker for text [{}] with voice [{}]".format(text, voice))
+    if result.reason == speechsdk.ResultReason.Canceled:
         cancellation_details = result.cancellation_details
         print("Speech synthesis canceled: {}".format(cancellation_details.reason))
         if cancellation_details.reason == speechsdk.CancellationReason.Error:

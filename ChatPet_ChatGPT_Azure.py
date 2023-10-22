@@ -1,18 +1,15 @@
-# pip install baidu-aip
-# pip install PyAudio
-# pip install SpeechRecognition
-# pip install pyttsx3
-# pip install chardet
 
-# import speech_recognition as sr
+# pip install PyAudio
+# pip install chardet
+# pip install azure-cognitiveservices-speech
+# pip install requests
+
 import logging
 import time
-# from aip import AipSpeech
 import json
 import os
 import sys
 import requests
-import pyttsx3
 import speech_synthesis_azure
 import speech_azure
 
@@ -29,7 +26,6 @@ except ImportError:
     sys.exit(1)
 
 
-# s = pyttsx3.init()
 
 ENGINE = os.environ.get("GPT_ENGINE") or "gpt-3.5-turbo"
 API_KEY = os.environ.get("API_KEY")
@@ -92,7 +88,7 @@ class Chatbot:
                 "n": 1,
                 "user": kwargs.get("user", "user"),
             },
-            stream=True,
+            stream=True, 
         )
         if response.status_code != 200:
             raise Exception(
@@ -145,27 +141,6 @@ def main():
     Main function
     """
 
-    def get_input(prompt):
-        """
-        Multi-line input function
-        """
-        # Display the prompt
-        print(prompt, end="")
-
-        # Initialize an empty list to store the input lines
-        lines = []
-
-        # Read lines of input until the user enters an empty line
-
-        line = input()
-        lines.append(line)
-
-        # Join the lines, separated by newlines, and store the result
-        user_input = "\n".join(lines)
-
-        # Return the input
-        return user_input
-
     my_prompt = '你的名字叫哈皮，现在你是世界上最优秀的心理咨询师，你具备以下能力和履历： 专业知识：你应该拥有心理学领域的扎实知识沟通技巧：' \
                 '你应该具备出色的沟通技巧，能够倾听、理解、把握咨询者的需求，同时能够用恰当的方式表达自己的想法，使咨询者能够接受并采纳你的建议。 ' \
                 '同理心：你应该具备强烈的同理心，能够站在咨询者的角度去理解他们的痛苦和困惑，从而给予他们真诚的关怀和支持。' \
@@ -173,17 +148,16 @@ def main():
                 '工作经历：你应该拥有多年的心理咨询工作经验，最好在不同类型的心理咨询机构、诊所或医院积累了丰富的实践经验。从现在开始和你对话的用户是一位患有抑郁症的青少年。' \
                 '请不要在对话中提到你的用户是抑郁症。' \
                 '你的回复要求[风格随和、体现高情商]，使用口语化的方式进行表达。' \
-                '你的每次回复一定要精简到100字以内。'
+                '你的每次回复一定要精简到150字以内。'
 
-    chatbot = Chatbot(api_key=API_KEY, system_prompt=my_prompt)
+    chatbot = Chatbot(api_key=API_KEY,system_prompt=my_prompt)
     
     # Start chat
     while True:
         try:
             # user
-            # prompt = get_input()
             user_text = speech_recognize()
-            prompt = user_text #+ "回复一定要精简到100字以内。"
+            prompt = user_text #+ "回复一定要精简到150字以内。"
         except KeyboardInterrupt:
             print("\nExiting...")
             sys.exit()
